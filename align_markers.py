@@ -6,7 +6,7 @@ markers_placement = [[0.949, 0.815], [0.047, 0.815],
                      [0.859, 0.181], [0.859, 0.031],
                      [0.22, 0.031]]
 
-def align_markers(image):
+def align_markers(image, debug=False):
     i_h, i_w, i_s = image.shape
     image_area = i_h * i_w
     processed = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -24,13 +24,21 @@ def align_markers(image):
             continue
         k = w/h
         s = w*h
-        if 0.75 < k < 1.5 and 0.00018 < s/image_area < 0.0005:
+        if 0.75 < k < 1.5 and 0.0002 < s/image_area < 0.0005:
             M = cv2.moments(approx)
             cx = int(M['m10']/M['m00'])
             cy = int(M['m01']/M['m00'])
             markers.append([cx, cy])
 
-    assert len(markers) == 5
+    try:
+        assert len(markers) == 5
+    except AssertionError:
+        if debug:
+            for marker in markers:
+                image = cv2.drawMarker(image, (cx, cy), (255, 0, 0))
+            cv2.imshow('image', image)
+            cv2.waitKey(0)
+        raise
 
     # [0]BR, [1]BL, [2]M, [3]TR, [4]TL
     markers.sort(key=lambda x: x[1], reverse=True)
