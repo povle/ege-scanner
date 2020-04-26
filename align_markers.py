@@ -29,16 +29,17 @@ def align_markers(image, debug=False):
             cx = int(M['m10']/M['m00'])
             cy = int(M['m01']/M['m00'])
             markers.append([cx, cy])
-
-    try:
-        assert len(markers) == 5
-    except AssertionError:
-        if debug:
-            for marker in markers:
+            if debug:
                 image = cv2.drawMarker(image, (cx, cy), (255, 0, 0))
-            cv2.imshow('image', image)
-            cv2.waitKey(0)
-        raise
+                image = cv2.putText(image, str(s/image_area), (cx, cy),
+                                    cv2.FONT_HERSHEY_PLAIN, 0.75, (0, 0, 255))
+
+    if debug:
+        print(len(markers), 'markers')
+        cv2.imshow('image', image)
+        cv2.waitKey(0)
+
+    assert len(markers) == 5
 
     # [0]BR, [1]BL, [2]M, [3]TR, [4]TL
     markers.sort(key=lambda x: x[1], reverse=True)
