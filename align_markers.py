@@ -47,6 +47,12 @@ def align_markers(image, debug=False):
         markers[0], markers[1] = markers[1], markers[0]
     if markers[3][0] < markers[4][0]:
         markers[3], markers[4] = markers[4], markers[3]
+
+    #check if the image is upside down
+    if abs(markers[2][1] - markers[0][1]) < abs(markers[2][1] - markers[3][1]):
+        markers[3], markers[1] = markers[1], markers[3]
+        markers[4], markers[0] = markers[0], markers[4]
+
     src_points = np.array(markers)
 
     dest_points = [[x*i_w, y*i_h] for x, y in markers_placement]
