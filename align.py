@@ -12,8 +12,9 @@ def adaptive_sheet_align(orig, debug=False):
     cn = {'threshold1': 60, 'threshold2': 120, 'L2gradient': True}
     while True:
         try:
-            a = align(orig, {'canny': cn}, debug)
-            print(cn)
+            a = sheet_align(orig, {'canny': cn}, debug)
+            if debug:
+                print(cn)
             return a
         except Exception:
             cn['threshold1'] -= 3
@@ -35,7 +36,8 @@ def adaptive_marker_align(orig, debug=False):
     while True:
         try:
             a = marker_align(orig, {'threshold': thr}, debug)
-            print(thr)
+            if debug:
+                print(thr)
             return a
         except Exception:
             thr['thresh'] -= 5
