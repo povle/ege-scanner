@@ -43,7 +43,7 @@ def adaptive_marker_align(orig, debug=False):
                 raise
 
 
-def align(image, debug):
-    aligned = adaptive_sheet_align(image)
-    aligned = adaptive_marker_align(aligned)
+def align(image, debug=False):
+    aligned = adaptive_sheet_align(image, debug)
+    aligned = adaptive_marker_align(aligned, debug)
     return aligned
