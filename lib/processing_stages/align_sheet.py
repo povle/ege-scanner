@@ -1,12 +1,9 @@
 import cv2
 import numpy as np
+from lib.utils import show_image
 
-def align_sheet(image, out_mult=30):
-    processed = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    processed = cv2.medianBlur(processed, 3)
-    processed = cv2.threshold(processed, 200, 255, cv2.THRESH_BINARY)[1]
-
-    conts, hier = cv2.findContours(processed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+def align_sheet(orig, preprocessed, out_mult=30, debug=False):
+    conts, hier = cv2.findContours(preprocessed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     largest_cont = None
     max_area = None
@@ -18,6 +15,11 @@ def align_sheet(image, out_mult=30):
     assert largest_cont is not None
 
     approx = cv2.approxPolyDP(largest_cont, 0.05*cv2.arcLength(largest_cont, True), True)
+
+    if debug:
+        print(len(approx), 'points')
+        show_image(cv2.drawContours(orig, [approx], -1, (255, 0, 0), thickness=1))
+
     assert len(approx) == 4
 
     # top right, top left, bottom left, bottom right
@@ -36,5 +38,5 @@ def align_sheet(image, out_mult=30):
 
     homography, status = cv2.findHomography(src_points, dest_points)
 
-    out = cv2.warpPerspective(image, homography, (out_x, out_y))
+    out = cv2.warpPerspective(orig, homography, (out_x, out_y))
     return out
