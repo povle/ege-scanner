@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from lib.utils import show_image
+from lib.alignment.utils import show_image
 
 # [0]BR, [1]BL, [2]M, [3]TR, [4]TL
 markers_placement = [[0.949, 0.815], [0.047, 0.815],

@@ -1,5 +1,5 @@
 import cv2
-from lib.processing_stages import canny, threshold, align_markers, align_sheet
+from lib.alignment import canny, threshold, align_markers, align_sheet
 
 
 def sheet_align(orig, kwargs, debug=False):

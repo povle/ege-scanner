@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from lib.utils import show_image
+from lib.alignment.utils import show_image
 
 def align_sheet(orig, preprocessed, out_mult=30, debug=False):
     conts, hier = cv2.findContours(preprocessed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
