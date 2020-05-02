@@ -2,15 +2,15 @@ import cv2
 
 def pad_to_size(img, size, black=True):
     h, w = img.shape[:2]
-    if size[0] < w or size[1] < h:
+    if size[1] < w or size[0] < h:
         raise ValueError
 
-    top = bottom = (size[1] - h) // 2
-    if top + bottom != size[1] - h:
+    top = bottom = (size[0] - h) // 2
+    if top + bottom != size[0] - h:
         top += 1
 
-    left = right = (size[0] - w) // 2
-    if left + right != size[0] - w:
+    left = right = (size[1] - w) // 2
+    if left + right != size[1] - w:
         left += 1
 
     color = (0, 0, 0) if black else (255, 255, 255)
