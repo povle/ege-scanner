@@ -20,5 +20,5 @@ def pad_to_size(img, size, black=True):
 
 def pad_to_square(img, black=True):
     h, w = img.shape[:2]
-    a = max(h, w)
+    a = max(h+1, w+1)
     return pad_to_size(img, (a, a), black)
