@@ -22,7 +22,7 @@ class Recognizer:
         data = self.convert_cv2_to_tf(img)
         result = self.model.predict(data)[0]
         best = np.argmax(result)
-        return self.indices[best]
+        return self.indices[best], result[best]
 
     def convert_cv2_to_tf(self, img):
         resized = cv2.resize(img, self.image_size)
