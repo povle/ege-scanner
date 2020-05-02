@@ -3,9 +3,9 @@ import cv2
 from lib.alignment.utils import show_image
 
 # [0]BR, [1]BL, [2]M, [3]TR, [4]TL
-markers_placement = [[0.949, 0.815], [0.047, 0.815],
-                     [0.859, 0.181], [0.859, 0.031],
-                     [0.22, 0.031]]
+markers_placement = ((0.932, 0.803), (0.066, 0.803),
+                     (0.846, 0.193),
+                     (0.846, 0.05), (0.231, 0.05))
 
 def align_markers(orig, preprocessed, debug=False):
     i_h, i_w, i_s = orig.shape
@@ -58,6 +58,7 @@ def align_markers(orig, preprocessed, debug=False):
 
     if debug:
         print(len(markers), 'markers')
+        print(markers)
         show_image(debug_image)
 
     assert len(markers) == 5
