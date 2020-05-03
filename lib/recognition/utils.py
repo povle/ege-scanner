@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 def pad_to_size(img, size, black=True):
     h, w = img.shape[:2]
@@ -17,8 +18,20 @@ def pad_to_size(img, size, black=True):
     return cv2.copyMakeBorder(img, top, bottom, left, right,
                               cv2.BORDER_CONSTANT, value=color)
 
-
-def pad_to_square(img, black=True):
+def pad_to_square(img, border=1, black=True):
     h, w = img.shape[:2]
-    a = max(h+1, w+1)
+    a = max(h+border, w+border)
     return pad_to_size(img, (a, a), black)
+
+def crop_to_fit(img, threshold=0, border=4):
+    # modified https://codereview.stackexchange.com/a/132933
+    mask = img > threshold
+    # Coordinates of non-black pixels.
+    coords = np.argwhere(mask)
+    if coords.size != 0:
+        # Bounding box of non-black pixels.
+        x0, y0 = coords.min(axis=0)
+        x1, y1 = coords.max(axis=0) + 1   # slices are exclusive at the top
+        # Get the contents of the bounding box.
+        img = img[x0:x1, y0:y1]
+    return pad_to_square(img, border)
